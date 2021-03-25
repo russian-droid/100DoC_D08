@@ -37,16 +37,37 @@ text = input("Type your message:\n").lower()
 shift = int(input("Type the shift number:\n"))
 
 def encrypt(plain_text, shift_amount):
-  #list for encoded text
+  #new list for encoding text
   cipher_text = ""
   #go via letters in the original text
   for letter in plain_text:
-    
+    #using index method:finds number of the elemnt in the list and assign it to var position
     position = alphabet.index(letter)
+    #shift the position for every element and assign it to a new var
     new_position = position + shift_amount
+    #using new position to get a leter from old alphabet and assign it to a new var
     new_letter = alphabet[new_position]
+    #adding encoded letters to the list
     cipher_text += new_letter
   print(f"The encoded text is {cipher_text}")
 
-#TODO-3: Call the encrypt function and pass in the user inputs. You should be able to test the code and encrypt a message. 
-encrypt(plain_text=text, shift_amount=shift)
+def decrypt(cipher_text, shift_amount):
+  #new list for decoding text
+  plain_text = ""
+  #go via letters in encoded text
+  for letter in cipher_text:
+    #using index method:finds number of the elemnt in the list and assign it to var position
+    position = alphabet.index(letter)
+    #shift the position for every element and assign it to a new var
+    new_position = position - shift_amount
+    #adding decoded letters to the list
+    plain_text += alphabet[new_position]
+  print(f"The decoded text is {plain_text}")
+
+#after user decided
+if direction == "encode":
+  #Call the encrypt function and pass in the user inputs.
+  encrypt(plain_text=text, shift_amount=shift)
+elif direction == "decode":
+  #Call the decrypt function and pass in the user inputs.
+  decrypt(cipher_text=text, shift_amount=shift)
