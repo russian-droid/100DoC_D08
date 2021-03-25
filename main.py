@@ -32,42 +32,45 @@ def prime_checker(number):
 #-------------------------------------------
 alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
-direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n")
-text = input("Type your message:\n").lower()
-shift = int(input("Type the shift number:\n"))
+def caesar(start_text, shift_amount, cipher_direction):
+  #creating new list for a new text
+  end_text = ""
+  #if user's choice do this
+  if cipher_direction == "decode":
+      #take shift number and multiply by '-1'
+      shift_amount *= -1 #same is: shift_amount *= shift_amount * -1
+  #otherwise just do this: loop through
+  for char in start_text:
+    #only if charachter is in alphabet list
+    if char in alphabet:
+      #using index method:finds number of the elemnt in the list and assign it to var position
+      position = alphabet.index(char)
+      #shift the position for every element and assign it to a new var
+      new_position = position + shift_amount
+      #adding decoded letters(symbols) to the list
+      end_text += alphabet[new_position]
+    #for all other charachters and symbols
+    else:
+      #adding decoded letters(symbols) to the list
+      end_text += char
+  print(f"Here's the {cipher_direction}d result: {end_text}")
 
-def encrypt(plain_text, shift_amount):
-  #new list for encoding text
-  cipher_text = ""
-  #go via letters in the original text
-  for letter in plain_text:
-    #using index method:finds number of the elemnt in the list and assign it to var position
-    position = alphabet.index(letter)
-    #shift the position for every element and assign it to a new var
-    new_position = position + shift_amount
-    #using new position to get a leter from old alphabet and assign it to a new var
-    new_letter = alphabet[new_position]
-    #adding encoded letters to the list
-    cipher_text += new_letter
-  print(f"The encoded text is {cipher_text}")
+#run loop until the condition changes
+should_end = False
+while not should_end:
+  direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n")
+  text = input("Type your message:\n").lower()
+  shift = int(input("Type the shift number:\n"))
 
-def decrypt(cipher_text, shift_amount):
-  #new list for decoding text
-  plain_text = ""
-  #go via letters in encoded text
-  for letter in cipher_text:
-    #using index method:finds number of the elemnt in the list and assign it to var position
-    position = alphabet.index(letter)
-    #shift the position for every element and assign it to a new var
-    new_position = position - shift_amount
-    #adding decoded letters to the list
-    plain_text += alphabet[new_position]
-  print(f"The decoded text is {plain_text}")
+  #if number > 26 (letters in the alphabet), bting it back to within 26 range
+  shift = shift % 26
 
-#after user decided
-if direction == "encode":
-  #Call the encrypt function and pass in the user inputs.
-  encrypt(plain_text=text, shift_amount=shift)
-elif direction == "decode":
-  #Call the decrypt function and pass in the user inputs.
-  decrypt(cipher_text=text, shift_amount=shift)
+  #run main function
+  caesar(start_text=text, shift_amount=shift, cipher_direction=direction)
+
+  #ask if user wants to rub again
+  restart = input("Type 'yes' if you want to go again. Otherwise type 'no'.\n")
+  #react to his choice
+  if restart == "no":
+    should_end = True
+    print("Goodbye")
